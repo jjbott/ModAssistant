@@ -93,6 +93,10 @@ namespace ModAssistant
                         break;
                 }
             }
+
+            var cmd = new RoutedCommand();
+            cmd.InputGestures.Add(new KeyGesture(Key.F5));
+            CommandBindings.Add(new CommandBinding(cmd, RefreshMods));
         }
 
         /* Force the app to shutdown when The main window is closed.
@@ -340,6 +344,16 @@ namespace ModAssistant
         {
             BackgroundVideo.Position = TimeSpan.Zero;
             BackgroundVideo.Play();
+        }
+
+        private async void RefreshMods(object sender, RoutedEventArgs e)
+        {
+            if (Main.Content == Mods.Instance)
+            {
+                ModsOpened = false;
+                Mods.Instance = new Mods();
+                await ShowModsPage();
+            }
         }
     }
 }
